@@ -59,17 +59,13 @@ class HOIDataset(Dataset):
     def __init__(self, opt, split='train'):
         self.opt = opt
     
-        # 直接指定 Kaggle 数据集的注释文件路径（包含子目录 annotations）
         self.annotations_path = '/kaggle/input/dico-det/annotations/annotations/trainval_hico.json'
     
-        # 检查文件是否存在
         if not os.path.exists(self.annotations_path):
-            raise FileNotFoundError(f"注释文件未找到：{self.annotations_path}")
+            raise FileNotFoundError(f"Cannot find!：{self.annotations_path}")
     
-        # 加载注释文件（无论训练/验证集，均使用该文件，如需区分可调整逻辑）
         self.hoi_annotations = json.load(open(self.annotations_path, 'r'))
     
-        # 保留原代码的其他逻辑
         if split == 'train':
             self.flip = self.opt.flip
             self.ids = []
