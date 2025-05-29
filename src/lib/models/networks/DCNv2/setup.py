@@ -26,10 +26,16 @@ def get_extensions():
     os.environ["CC"] = "g++"
     sources = main_file + source_cpu
     extension = CppExtension
-    extra_compile_args = {"cxx": []}
+    extra_compile_args = {
+        "cxx": [
+            "-Wno-sign-compare",           # 忽略有符号/无符号比较警告
+            "-Wno-unused-variable",        # 忽略未使用变量警告
+            "-Wno-deprecated-declarations", # 忽略弃用接口警告
+            "-Wno-strict-prototypes",      # 忽略C++中无效的C警告
+        ]
+    }
     define_macros = []
 
-    
     if torch.cuda.is_available() and CUDA_HOME is not None:
         extension = CUDAExtension
         sources += source_cuda
@@ -39,11 +45,10 @@ def get_extensions():
             "-D__CUDA_NO_HALF_OPERATORS__",
             "-D__CUDA_NO_HALF_CONVERSIONS__",
             "-D__CUDA_NO_HALF2_OPERATORS__",
+            "-Wno-deprecated-gpu-targets",  # 忽略CUDA弃用警告
         ]
     else:
-        #raise NotImplementedError('Cuda is not available')
-        pass
-    
+        print("Warning: CUDA not found, building without GPU support.")
 
     sources = [os.path.join(extensions_dir, s) for s in sources]
     include_dirs = [extensions_dir]

@@ -292,7 +292,6 @@ dcn_v2_psroi_pooling_cpu_forward(const at::Tensor& input,
 	AT_ASSERTM(bbox.type().is_cuda(), "rois must be a CUDA tensor");
 	AT_ASSERTM(trans.type().is_cuda(), "trans must be a CUDA tensor");*/
 
-	const int batch = input.size(0);
 	const int channels = input.size(1);
 	const int height = input.size(2);
 	const int width = input.size(3);
@@ -321,7 +320,7 @@ dcn_v2_psroi_pooling_cpu_forward(const at::Tensor& input,
 	/*dim3 grid(std::min(THCCeilDiv(out_size, 512L), 4096L));
 	dim3 block(512);*/
 
-	AT_DISPATCH_FLOATING_TYPES(input.type(), "dcn_v2_psroi_pooling_cpu_forward", [&] {
+	AT_DISPATCH_FLOATING_TYPES(input.scalar_type(), "dcn_v2_psroi_pooling_cpu_forward", [&] {
 		DeformablePSROIPoolForwardKernelCpu<scalar_t>(
 			out_size,
 			input.contiguous().data_ptr<scalar_t>(),
