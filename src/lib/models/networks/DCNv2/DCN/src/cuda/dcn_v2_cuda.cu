@@ -57,7 +57,7 @@ dcn_v2_cuda_forward(const at::Tensor &input,
 {
     using scalar_t = float;
     // THCAssertSameGPU(THCudaTensor_checkGPU(state, 5, input, weight, bias, offset, mask));
-    AT_ASSERTM(input.device().type() == at::DeviceType::CUDA, "input must be a CUDA tensor");
+    AT_ASSERTM(input.type().is_cuda(), "input must be a CUDA tensor");
     AT_ASSERTM(weight.type().is_cuda(), "weight must be a CUDA tensor");
     AT_ASSERTM(bias.type().is_cuda(), "bias must be a CUDA tensor");
     AT_ASSERTM(offset.type().is_cuda(), "offset must be a CUDA tensor");
@@ -219,7 +219,7 @@ std::vector<at::Tensor> dcn_v2_cuda_backward(const at::Tensor &input,
     THArgCheck(input.is_contiguous(), 1, "input tensor has to be contiguous");
     THArgCheck(weight.is_contiguous(), 2, "weight tensor has to be contiguous");
 
-    AT_ASSERTM(input.device().type() == at::DeviceType::CUDA, "input must be a CUDA tensor");
+    AT_ASSERTM(input.type().is_cuda(), "input must be a CUDA tensor");
     AT_ASSERTM(weight.type().is_cuda(), "weight must be a CUDA tensor");
     AT_ASSERTM(bias.type().is_cuda(), "bias must be a CUDA tensor");
     AT_ASSERTM(offset.type().is_cuda(), "offset must be a CUDA tensor");
