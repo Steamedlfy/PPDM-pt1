@@ -1,0 +1,4 @@
+*.pyc
+# Visual Studio 工作区文件
+.vs/
+*/__pycache__/
