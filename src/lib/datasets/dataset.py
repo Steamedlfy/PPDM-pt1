@@ -33,12 +33,44 @@ class HOIDataset(Dataset):
     _valid_ids = []
     _valid_ids_verb = []
 
+    # def __init__(self, opt, split='train'):
+    #     self.opt = opt
+    #     self.root = os.path.join(self.opt.root_path, self.dataset_tag)
+    #     self.image_dir = self.opt.image_dir
+    #     if split == 'train':
+    #         self.hoi_annotations = json.load(open(os.path.join(self.root, 'annotations', self.ann_tag[split]), 'r'))
+    #         self.flip = self.opt.flip
+    #         self.ids = []
+    #         self.filter_bad_anns()
+    #         self.shuffle()
+    #         self.max_objs = 128
+    #         self.max_rels = 64
+    #         self.cat_ids = {v: i for i, v in enumerate(self._valid_ids)}
+    #         self.cat_ids_verb = {v: i for i, v in enumerate(self._valid_ids_verb)}
+    #         self.split = split
+    #         self.num_classes_verb = self.num_classes_verb
+    #     else:
+    #         self.hoi_annotations = json.load(open(os.path.join(self.root, 'annotations', self.ann_tag[split]), 'r'))
+    #         self.ids = list(range(len(self.hoi_annotations)))
+
+    #     if MC_AVAILABLE:
+    #         self.mclient = None
+
     def __init__(self, opt, split='train'):
         self.opt = opt
-        self.root = os.path.join(self.opt.root_path, self.dataset_tag)
-        self.image_dir = self.opt.image_dir
+    
+        # 直接指定 Kaggle 数据集的注释文件路径（包含子目录 annotations）
+        self.annotations_path = '/kaggle/input/dico-det/annotations/annotations/trainval_hico.json'
+    
+        # 检查文件是否存在
+        if not os.path.exists(self.annotations_path):
+            raise FileNotFoundError(f"注释文件未找到：{self.annotations_path}")
+    
+        # 加载注释文件（无论训练/验证集，均使用该文件，如需区分可调整逻辑）
+        self.hoi_annotations = json.load(open(self.annotations_path, 'r'))
+    
+        # 保留原代码的其他逻辑
         if split == 'train':
-            self.hoi_annotations = json.load(open('/kaggle/input/dico-det/annotations/annotations', 'r'))
             self.flip = self.opt.flip
             self.ids = []
             self.filter_bad_anns()
@@ -50,12 +82,11 @@ class HOIDataset(Dataset):
             self.split = split
             self.num_classes_verb = self.num_classes_verb
         else:
-            self.hoi_annotations = json.load(open('/kaggle/input/dico-det/annotations/annotations', 'r'))
             self.ids = list(range(len(self.hoi_annotations)))
-
+    
         if MC_AVAILABLE:
             self.mclient = None
-
+        
     def __getitem__(self, index):
         img_id = self.ids[index]
         img = self.load_img(img_id)
