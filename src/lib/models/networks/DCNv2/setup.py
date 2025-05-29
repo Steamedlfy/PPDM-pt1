@@ -28,10 +28,10 @@ def get_extensions():
     extension = CppExtension
     extra_compile_args = {
         "cxx": [
-            "-Wno-sign-compare",           # 忽略有符号/无符号比较警告
-            "-Wno-unused-variable",        # 忽略未使用变量警告
-            "-Wno-deprecated-declarations", # 忽略弃用接口警告
-            "-Wno-strict-prototypes",      # 忽略C++中无效的C警告
+            "-Wno-sign-compare",          
+            "-Wno-unused-variable",        
+            "-Wno-deprecated-declarations", 
+            "-Wno-strict-prototypes",      
         ]
     }
     define_macros = []
@@ -45,7 +45,7 @@ def get_extensions():
             "-D__CUDA_NO_HALF_OPERATORS__",
             "-D__CUDA_NO_HALF_CONVERSIONS__",
             "-D__CUDA_NO_HALF2_OPERATORS__",
-            "-Wno-deprecated-gpu-targets",  # 忽略CUDA弃用警告
+            "-Wno-deprecated-gpu-targets",  
         ]
     else:
         print("Warning: CUDA not found, building without GPU support.")
