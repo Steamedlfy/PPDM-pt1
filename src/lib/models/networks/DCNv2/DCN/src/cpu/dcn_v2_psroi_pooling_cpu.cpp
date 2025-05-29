@@ -361,7 +361,7 @@ dcn_v2_psroi_pooling_cpu_backward(const at::Tensor& out_grad,
 	const int sample_per_part,
 	const float trans_std)
 {
-	/*AT_ASSERTM(out_grad.scalar_type().is_cuda(), "out_grad must be a CUDA tensor");
+	/*AT_ASSERTM(out_grad.device().type() == at::DeviceType::CUDA, "out_grad must be a CUDA tensor");
 	AT_ASSERTM(input.device().type() == at::DeviceType::CUDA, "input must be a CUDA tensor");
 	AT_ASSERTM(bbox.device().type() == at::DeviceType::CUDA, "bbox must be a CUDA tensor");
 	AT_ASSERTM(trans.device().type() == at::DeviceType::CUDA, "trans must be a CUDA tensor");
