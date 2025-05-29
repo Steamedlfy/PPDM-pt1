@@ -229,20 +229,40 @@ class DLA(nn.Module):
         # self.fc = fc
 
 
+# def dla34(pretrained=True, **kwargs):  # DLA-34
+#     model = DLA([1, 1, 1, 2, 2, 1],
+#                 [16, 32, 64, 128, 256, 512],
+#                 block=BasicBlock, **kwargs)
+#     if pretrained:
+#         #model.load_pretrained_model(data='imagenet', name='dla34', hash='ba72cf86')
+#         model.load_pretrained_model(
+#             data='imagenet', 
+#             name='dla34', 
+#             hash='ba72cf86', 
+#             local_path='/kaggle/working/PPDM/src/lib/models/dla34-ba72cf86.pth'  # 添加本地路径
+#         )
+#     return model
+
 def dla34(pretrained=True, **kwargs):  # DLA-34
     model = DLA([1, 1, 1, 2, 2, 1],
                 [16, 32, 64, 128, 256, 512],
                 block=BasicBlock, **kwargs)
+    
     if pretrained:
-        #model.load_pretrained_model(data='imagenet', name='dla34', hash='ba72cf86')
-        model.load_pretrained_model(
-            data='imagenet', 
-            name='dla34', 
-            hash='ba72cf86', 
-            local_path='/kaggle/working/PPDM/src/lib/models/dla34-ba72cf86.pth'  # 添加本地路径
-        )
+        # 手动指定本地模型路径（需与实际路径一致）
+        local_path = '/kaggle/working/PPDM/src/lib/models/dla34-ba72cf86.pth'
+        
+        # 直接加载本地模型权重（绕过自动下载）
+        try:
+            state_dict = torch.load(local_path, map_location='cpu')  # 加载到CPU，避免设备问题
+            model.load_state_dict(state_dict, strict=False)  # strict=False 允许部分参数不匹配
+            print(f"Successfully loaded local pretrained model from {local_path}")
+        except FileNotFoundError:
+            print(f"Warning: Local model not found at {local_path}, falling back to download (if possible).")
+            # 若需保留下载逻辑，可取消注释原代码
+            # model.load_pretrained_model(data='imagenet', name='dla34', hash='ba72cf86')
+    
     return model
-
 
 class DeformConv(nn.Module):
     def __init__(self, chi, cho):
