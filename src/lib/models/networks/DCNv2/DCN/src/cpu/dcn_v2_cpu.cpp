@@ -37,10 +37,10 @@ dcn_v2_cpu_forward(const at::Tensor& input,
 {
 	// THCAssertSameGPU(THCudaTensor_checkGPU(state, 5, input, weight, bias, offset, mask));
 	/*AT_ASSERTM(input.device().type() == at::DeviceType::CUDA, "input must be a CUDA tensor");
-	AT_ASSERTM(weight.type().is_cuda(), "weight must be a CUDA tensor");
-	AT_ASSERTM(bias.type().is_cuda(), "bias must be a CUDA tensor");
-	AT_ASSERTM(offset.type().is_cuda(), "offset must be a CUDA tensor");
-	AT_ASSERTM(mask.type().is_cuda(), "mask must be a CUDA tensor");*/
+	AT_ASSERTM(weight.device().type() == at::DeviceType::CUDA, "weight must be a CUDA tensor");
+	AT_ASSERTM(bias.device().type() == at::DeviceType::CUDA, "bias must be a CUDA tensor");
+	AT_ASSERTM(offset.device().type() == at::DeviceType::CUDA, "offset must be a CUDA tensor");
+	AT_ASSERTM(mask.device().type() == at::DeviceType::CUDA, "mask must be a CUDA tensor");*/
 
 	const int batch = input.size(0);
 	const int channels = input.size(1);
@@ -127,10 +127,10 @@ std::vector<at::Tensor> dcn_v2_cpu_backward(const at::Tensor& input,
 	THArgCheck(weight.is_contiguous(), 2, "weight tensor has to be contiguous");
 
 	/*AT_ASSERTM(input.device().type() == at::DeviceType::CUDA, "input must be a CUDA tensor");
-	AT_ASSERTM(weight.type().is_cuda(), "weight must be a CUDA tensor");
-	AT_ASSERTM(bias.type().is_cuda(), "bias must be a CUDA tensor");
-	AT_ASSERTM(offset.type().is_cuda(), "offset must be a CUDA tensor");
-	AT_ASSERTM(mask.type().is_cuda(), "mask must be a CUDA tensor");*/
+	AT_ASSERTM(weight.device().type() == at::DeviceType::CUDA, "weight must be a CUDA tensor");
+	AT_ASSERTM(bias.device().type() == at::DeviceType::CUDA, "bias must be a CUDA tensor");
+	AT_ASSERTM(offset.device().type() == at::DeviceType::CUDA, "offset must be a CUDA tensor");
+	AT_ASSERTM(mask.device().type() == at::DeviceType::CUDA, "mask must be a CUDA tensor");*/
 
 	const int batch = input.size(0);
 	const int channels = input.size(1);
