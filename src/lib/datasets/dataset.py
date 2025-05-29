@@ -38,7 +38,7 @@ class HOIDataset(Dataset):
         self.root = os.path.join(self.opt.root_path, self.dataset_tag)
         self.image_dir = self.opt.image_dir
         if split == 'train':
-            self.hoi_annotations = json.load(open(os.path.join(self.root, 'annotations', self.ann_tag[split]), 'r'))
+            self.hoi_annotations = json.load(open('/kaggle/input/dico-det/annotations/annotations', 'r'))
             self.flip = self.opt.flip
             self.ids = []
             self.filter_bad_anns()
@@ -50,7 +50,7 @@ class HOIDataset(Dataset):
             self.split = split
             self.num_classes_verb = self.num_classes_verb
         else:
-            self.hoi_annotations = json.load(open(os.path.join(self.root, 'annotations', self.ann_tag[split]), 'r'))
+            self.hoi_annotations = json.load(open('/kaggle/input/dico-det/annotations/annotations', 'r'))
             self.ids = list(range(len(self.hoi_annotations)))
 
         if MC_AVAILABLE:
