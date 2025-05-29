@@ -60,7 +60,11 @@ class HOIDataset(Dataset):
         self.opt = opt
     
         self.annotations_path = '/kaggle/input/dico-det/annotations/annotations/trainval_hico.json'
+
+        self.root = '/kaggle/input/dico-det/'
     
+        self.image_dir = 'train2015/train2015' 
+        
         if not os.path.exists(self.annotations_path):
             raise FileNotFoundError(f"Cannot find!:{self.annotations_path}")
     
