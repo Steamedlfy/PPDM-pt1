@@ -62,7 +62,7 @@ class HOIDataset(Dataset):
         self.annotations_path = '/kaggle/input/dico-det/annotations/annotations/trainval_hico.json'
     
         if not os.path.exists(self.annotations_path):
-            raise FileNotFoundError(f"Cannot find!£º{self.annotations_path}")
+            raise FileNotFoundError(f"Cannot find!:{self.annotations_path}")
     
         self.hoi_annotations = json.load(open(self.annotations_path, 'r'))
     
